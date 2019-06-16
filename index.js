@@ -53,7 +53,7 @@ function onTweeted(event) {
     id_str,
     user: { screen_name },
   } = event;
-  console.log('Tweet received from ', screen_name);
+  console.log('Tweet found from @', screen_name);
   const response = parseResponse(screen_name);
 
   // Send response
@@ -68,15 +68,15 @@ function onTweeted(event) {
 }
 
 function onError(error) {
-  console.log('Error on receive: ', error);
+  console.log('Error on stream:', error);
   throw error;
 }
 
 function onReplied(error, reply) {
   if (error !== undefined) {
-    console.log('Error on reply: ', error);
+    console.log('Error on reply:', error);
   } else {
-    console.log('Tweet sent: ', reply);
+    console.log('Tweet sent:', reply.text);
   }
 }
 
