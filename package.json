@@ -1,0 +1,28 @@
+{
+  "name": "command-bot",
+  "version": "1.0.0",
+  "description": "Generic implementation of a twitter bot that responds to different events.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ricardoerl/command-bot.git"
+  },
+  "keywords": [
+    "twitter",
+    "bot"
+  ],
+  "author": "Ricardo Ramírez",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ricardoerl/command-bot/issues"
+  },
+  "homepage": "https://github.com/ricardoerl/command-bot#readme",
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "lodash": "^4.17.11",
+    "twit": "^2.2.11"
+  }
+}
