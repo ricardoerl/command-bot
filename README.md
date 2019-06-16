@@ -9,8 +9,8 @@ Generic implementation of a twitter bot that responds to different events.
 
 ## Roadmap
 
-[] Support interactions such as mentions.
-[] Abstract response logic of the general implementation of the bot.
-[] Remove dependence on lodash.
-[] Add tests.
-[] Improve documentation for installation, usage and contribution.
+- [] Support interactions such as mentions.
+- [] Abstract response logic of the general implementation of the bot.
+- [] Remove dependence on lodash.
+- [] Add tests.
+- [] Improve documentation for installation, usage and contribution.
