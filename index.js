@@ -1,49 +1,59 @@
-require('dotenv').config();
+const env = require('dotenv').config();
 const Twit = require('twit');
-const _ = require('lodash');
 
-// twit configuration
+function init() {
+  // twit configuration
 
-const T = new Twit({
-  consumer_key: process.env.API_KEY,
-  consumer_secret: process.env.API_SECRET_KEY,
-  access_token: process.env.ACCESS_TOKEN,
-  access_token_secret: process.env.ACCESS_TOKEN_SECRET,
-});
+  if (env.error) return console.error('No env file found');
 
-// twit stream
+  const T = new Twit({
+    consumer_key: process.env.API_KEY,
+    consumer_secret: process.env.API_SECRET_KEY,
+    access_token: process.env.ACCESS_TOKEN,
+    access_token_secret: process.env.ACCESS_TOKEN_SECRET,
+  });
 
-const stream = T.stream('statuses/filter', { track: '#SeLeOrdena' });
+  // twit stream
 
-// stream events
+  const stream = T.stream('statuses/filter', { track: '#SeLeOrdena' });
 
-stream.on('tweet', onTweeted);
-stream.on('error', onError);
+  // stream events
 
-// bot configuration
+  stream.on('tweet', onTweeted);
+  stream.on('error', onError);
+}
+
+// * BOT CONFIGURATION
+
+// @profile templating
+
+const screen_name_template_key = '@USER';
+
+// posible bot replies
+
 const REPLY_TEMPLATES = [
-  'Enterado presidente @${ user } se cumplirá su orden.',
-  'Con gusto Presidente @${ user }, mañana a primera hora.',
-  'Enterado presidente, @${ user } se procederá conforme a su orden.',
-  'Señor Presidente @${ user } le informo que su instruccion ya fue cumplida.',
-  'Así se hará, cuanto antes presidente @${ user }.',
-  'Gracias por su confianza, señor Presidente @${ user }. En 15 días tendrá el plan en su despacho.',
-  '@${ user } Instruccion recibida Señor Presidente.',
-  'A la orden Señor Presidente @${ user }.',
-  'Con todo gusto Presidente @${ user }, el día lunes daremos inicio al programa.',
-  'Ya en camino a dar cumplimiento a esa promesa Presidente @${ user }.',
-  '@${ user } En este momento Presidente.',
-  '@${ user } Ejecutado Señor Presidente.',
-  '@${ user } De inmediato Presidente.',
-  '@${ user } Así será señor Presidente.',
-  'Equipos activados Presidente @${ user } y elaborando plan de distribución.',
-  '@${ user } De acuerdo, presidente, como ordene.',
-  '@${ user } En estos momentos procedo Presidente.',
-  'Su orden se ejecutará, Presidente @${ user }.',
-  '@${ user } Presidente, considérelo hecho.',
-  'Ahorita mismo Presidente @${ user }.',
-  '@${ user } Su orden será cumplida de inmediato Presidente.',
-  '@${ user } Esta hecho Presidente.',
+  'Enterado presidente @USER se cumplirá su orden.',
+  'Con gusto Presidente @USER, mañana a primera hora.',
+  'Enterado presidente, @USER se procederá conforme a su orden.',
+  'Señor Presidente @USER le informo que su instruccion ya fue cumplida.',
+  'Así se hará, cuanto antes presidente @USER.',
+  'Gracias por su confianza, señor Presidente @USER. En 15 días tendrá el plan en su despacho.',
+  '@USER Instruccion recibida Señor Presidente.',
+  'A la orden Señor Presidente @USER.',
+  'Con todo gusto Presidente @USER, el día lunes daremos inicio al programa.',
+  'Ya en camino a dar cumplimiento a esa promesa Presidente @USER.',
+  '@USER En este momento Presidente.',
+  '@USER Ejecutado Señor Presidente.',
+  '@USER De inmediato Presidente.',
+  '@USER Así será señor Presidente.',
+  'Equipos activados Presidente @USER y elaborando plan de distribución.',
+  '@USER De acuerdo, presidente, como ordene.',
+  '@USER En estos momentos procedo Presidente.',
+  'Su orden se ejecutará, Presidente @USER.',
+  '@USER Presidente, considérelo hecho.',
+  'Ahorita mismo Presidente @USER.',
+  '@USER Su orden será cumplida de inmediato Presidente.',
+  '@USER Esta hecho Presidente.',
 ];
 
 // bot methods
@@ -81,7 +91,17 @@ function onReplied(error, reply) {
 }
 
 function parseResponse(user) {
-  const template = _.sample(REPLY_TEMPLATES);
-  const compiled = _.template(template);
-  return compiled({ user });
+  const randomIndex = Math.floor(REPLY_TEMPLATES.length * Math.random());
+  //Gaps index to be in range [ 0 , REPLY_TEMPLATES.length - 1 ]
+  const responseTemplate = REPLY_TEMPLATES[randomIndex];
+  return responseTemplate.replace(screen_name_template_key, `@${user}`);
 }
+
+// bot start point
+
+init();
+
+// exporting needed data for testing
+module.exports = {
+  parseResponse,
+};
